@@ -1,15 +1,22 @@
-<html>
-    <head>
-        <title>Maisie IO Trackers</title>
-    </head>
-    <body>
-        <div>
-            <h1><a href="/">Maisie's I&Os Tracker </a></h1>
-        </div>
-
-        <div>
-            <p>Table goes here</p>
-        </div>
-
-    </body>
-</html>
+{% extends 'IO_Tracker/base.html' %}
+{% block content %}
+    
+    <div style="overflow-x:auto;"></div>
+        <table >
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Note</th>
+            </tr>
+        {% for io in ios %}
+        <tr>
+            <td>{{ io.event_date }}</td>
+            <td>{{ io.get_input_type_display }}</td>
+            <td>{{ io.quantity }}</td>
+            <td>{{ io.note|linebreaksbr  }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

@@ -37,3 +37,5 @@ class IO(models.Model):
             default=timezone.now)
 	user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
+	def __str__(self):
+	        return '%s %s' % (self.input_type, self.event_date.date())

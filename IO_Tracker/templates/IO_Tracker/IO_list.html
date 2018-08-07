@@ -4,7 +4,10 @@
     <div style="overflow-x:auto;"></div>
         <table >
             <tr>
-                <th>Edit</th>
+                {% if user.is_authenticated %}
+                        <th>Edit</th>
+                {% endif %}
+                <th>Delete</th>
                 <th>Date</th>
                 <th>Type</th>
                 <th>Quantity</th>
@@ -12,7 +15,10 @@
             </tr>
         {% for io in ios %}
         <tr>
+            {% if user.is_authenticated %}
             <td><a class="btn btn-default" href="{% url 'io_edit' pk=io.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+             {% endif %}
+             <td><a class="btn btn-default" href="{% url 'io_remove' pk=io.pk %}"><span class="glyphicon glyphicon-remove"></span></a></td>
             <td>{{ io.event_date }}</td>
             <td>{{ io.get_input_type_display }}</td>
             <td>{{ io.quantity }}</td>

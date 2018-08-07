@@ -4,17 +4,34 @@
         <title>Maisie IO Trackers</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="{% static '//css/io_tracker.css' %}">
-
+        <link rel="stylesheet" href="{% static 'css/io_tracker.css' %}">
     </head>
     <body>
         <div class="page-header">
 
             <h1>
                 <a href="/">Maisie's I&Os Tracker </a>
-                <a href="{% url 'io_new' %}" class="top-menu"><p style="float:right">Add</p><span style= "float:right;"class="glyphicon glyphicon-plus"></span></a>
+                {% if user.is_authenticated %}
+<!--                         <p>Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+                        <a href="{% url 'io_new' %}" class="top-menu"><p style="float:right">Add</p><span style= "float:right;"class="glyphicon glyphicon-plus"></span></a> -->
+                {% else %}
+                        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+                {% endif %}
             </h1>
         </div>
+<!--         <div class="topnav2">
+            <a class="active" href="#home">Home</a>
+            <a href="#news">News</a>
+            <a href="#contact">Contact</a>
+            <div class="topnav2-right">
+                <a href="#search">Add</a>
+                <a href="#search">Logout</a>
+            </div>
+        </div> -->
+        <nav class="navbar navbar-expand navbar-dark bg-dark" style="background-color: #000000;">
+            <a class="navbar-brand">Hello {{ user.username }} <a class="navbar-brand" href="{% url 'logout' %}">(Log out)</a>
+            <a href="{% url 'io_new' %}" class="navbar-brand"><span class="glyphicon glyphicon-plus"></span></a>
+        </nav>
         <div class="content container">
             <div class="row">
 <!--                 <div class="col-md-8"> -->

@@ -12,6 +12,7 @@
                 <th>Type</th>
                 <th>Quantity</th>
                 <th>Note</th>
+                <th>Urine</th>
             </tr>
         {% for io in ios %}
         <tr>
@@ -23,6 +24,7 @@
             <td>{{ io.get_input_type_display }}</td>
             <td>{{ io.quantity }}</td>
             <td>{{ io.note|linebreaksbr  }}</td>
+            <td>{{ io.urineFlag }}</td>
         </tr>
         {% endfor %}
     </table>

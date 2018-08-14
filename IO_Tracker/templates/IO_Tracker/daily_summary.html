@@ -1,0 +1,28 @@
+{% extends 'IO_Tracker/base.html' %}
+{% block content %}
+<div style="overflow-x:auto;"></div>
+        <p>Currently quanties are aggregated for All Time.  Need to breakdown by Hours (0:00 - 23:00) using additional rows per table, and breakdown quantities per Day using new table or new page</p>
+        <table >
+            <tr>
+                <th>TPN</th>
+                <th>Lipids</th>
+                <th>Enteral Feeds</th>
+                <th>Bottles</th>
+                <th>Meds</th>
+                <th>Diaper</th>
+                <th>Emesis</th>
+                <th>Gastric Output</th>
+            </tr>
+        <tr>
+            <td>{{ dailysum_TPN.quantity__sum }}</td>
+            <td>{{ dailysum_LIP.quantity__sum }}</td>
+            <td>{{ dailysum_ENT.quantity__sum }}</td>
+            <td>{{ dailysum_BOT.quantity__sum }}</td>
+            <td>{{ dailysum_MED.quantity__sum }}</td>
+            <td>{{ dailysum_DIA.quantity__sum }}</td>
+            <td>{{ dailysum_EME.quantity__sum }}</td>
+            <td>{{ dailysum_GAS.quantity__sum }}</td>
+        </tr>
+    </table>
+    </div>
+{% endblock %}

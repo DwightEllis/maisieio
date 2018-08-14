@@ -31,6 +31,7 @@
         <nav class="navbar navbar-expand navbar-dark bg-dark" style="background-color: #000000;">
             <a class="navbar-brand">Hello {{ user.username }} <a class="navbar-brand" href="{% url 'logout' %}">(Log out)</a>
             <a href="{% url 'io_new' %}" class="navbar-brand"><span class="glyphicon glyphicon-plus"></span></a>
+            <a class="navbar-brand" href="{% url 'daily_summary' %}">Daily Summary</a>
         </nav>
         <div class="content container">
             <div class="row">

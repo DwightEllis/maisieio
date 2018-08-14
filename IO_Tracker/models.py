@@ -9,8 +9,7 @@ class IO(models.Model):
 	ENTERAL = 'ENT'
 	BOTTLE = 'BOT'
 	MEDS = 'MED'
-	URINE = 'URI'
-	POOP = 'POO'
+	DIAPER = 'DIA'
 	EMESIS = 'EME'
 	GASTRIC = 'GAS'
 	IO_Choices = (
@@ -19,8 +18,7 @@ class IO(models.Model):
 		(ENTERAL, 'Enteral Feeds'),
 		(BOTTLE, 'Bottle Feeds'),
 		(MEDS, 'Medications'),
-		(URINE, 'Urine'),
-		(POOP, 'Poop'),
+		(DIAPER, 'Diaper'),
 		(EMESIS, 'Emesis'),
 		(GASTRIC, 'Gastric Output')
 		)
@@ -29,12 +27,16 @@ class IO(models.Model):
 		choices =IO_Choices,
 		default=TPN,
 		)
-	quantity = models.PositiveSmallIntegerField()
+	# quantity = models.PositiveSmallIntegerField()
+	quantity = models.DecimalField(max_digits=5, decimal_places=2)
 	note = models.TextField(blank=True)
 	event_date = models.DateTimeField(
             default=timezone.now)
 	create_date = models.DateTimeField(
             default=timezone.now)
+	test = models.TextField(blank=True)
+	urineFlag = models.BooleanField(default=False)
+	poopFlag = models.BooleanField(default=False)
 	user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
 	def __str__(self):

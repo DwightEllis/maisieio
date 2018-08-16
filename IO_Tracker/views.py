@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django import forms
 from django.db.models import Sum
+import datetime
 
 # Create your views here.
 @login_required
@@ -12,10 +13,14 @@ def IO_list(request):
     ios = IO.objects.all().order_by('-event_date')
     return render(request, 'IO_Tracker/IO_list.html', {'ios':ios})
 
+@login_required
+def trends(request):
+    return render(request, 'IO_Tracker/trends.html', {})
 
 @login_required
 def daily_summary(request):
-    # testsum = IO.objects.filter(event_date__hour=23).values('input_type').annotate(Sum('quantity'))
+    testsum = IO.objects.filter(event_date__hour=23).values('input_type').annotate(Sum('quantity'))
+    testsum17 = IO.objects.filter(event_date__hour=17,event_date__date=(datetime.date(2018,8,6))).values('input_type').annotate(Sum('quantity'))
     dailysum_TPN = IO.objects.filter(input_type='TPN').aggregate(Sum('quantity'))        
     dailysum_LIP = IO.objects.filter(input_type='LIP').aggregate(Sum('quantity'))
     dailysum_ENT = IO.objects.filter(input_type='ENT').aggregate(Sum('quantity'))
@@ -33,7 +38,8 @@ def daily_summary(request):
         'dailysum_DIA': dailysum_DIA,
         'dailysum_EME': dailysum_EME,
         'dailysum_GAS': dailysum_GAS,
-        # 'testsum': testsum
+        'testsum': testsum,
+        'testsum17': testsum17,
         })
 
 @login_required

@@ -1,30 +1,57 @@
 {% extends 'IO_Tracker/base.html' %}
+{% load app_filters %}
 {% block content %}
 <div style="overflow-x:auto;"></div>
+        <!-- Show the date -->
+        <h4>Viewing {{date}}</h4>
         <p>Currently quanties are aggregated for All Time.  Need to breakdown by Hours (0:00 - 23:00) using additional rows per table, and breakdown quantities per Day using new table or new page</p>
-        <table >
-            <tr>
-                <th>TPN</th>
-                <th>Lipids</th>
-                <th>Enteral Feeds</th>
-                <th>Bottles</th>
-                <th>Meds</th>
-                <th>Diaper</th>
-                <th>Emesis</th>
-                <th>Gastric Output</th>
-            </tr>
-        <tr>
-            <td>{{ dailysum_TPN.quantity__sum }}</td>
-            <td>{{ dailysum_LIP.quantity__sum }}</td>
-            <td>{{ dailysum_ENT.quantity__sum }}</td>
-            <td>{{ dailysum_BOT.quantity__sum }}</td>
-            <td>{{ dailysum_MED.quantity__sum }}</td>
-            <td>{{ dailysum_DIA.quantity__sum }}</td>
-            <td>{{ dailysum_EME.quantity__sum }}</td>
-            <td>{{ dailysum_GAS.quantity__sum }}</td>
-        </tr>
-    </table>    
+        <table>
+            <thead>
+                <tr>
+                    <!-- For the table header, create one constant header, but then draw all the
+                    other headers by sorting the list of input types and iterating over them -->
+                    <th>Hour</th>
+                    {% for v in input_types|dictsort:"input_type" %}
+                    <th>{{v.input_type}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Now the main table. Iterate over the hours list for all rows --> 
+                {% for hour in hours %}
+                <tr>
+                    <td>{{hour}}</td>
+                    <!-- This is where it gets complicated. We want to draw a table cell for each
+                    of the input_types. If we have an aggregated data value for that row and cell,
+                    we want to put the data in. Start by iterating over the inputs *exactly* the 
+                    way we did for the header   --> 
+                    {% for v in input_types|dictsort:"input_type" %}
+                        <!-- Okay. Now an if statement. If we have any data for this hour, continue into the big section.-->
+                        {% if data|lookup:hour %}
+                            <!-- Now iterate over all the entries we have for that hour. THese are dictionaries that 
+                            look like {"input_type": "TPN", "quantity__sum": 40}. Unfortunately this means we have to 
+                            iterate over all of them to only plot the one that matches the column we're in from the 
+                            loop above. -->
+                            {% for entry in data|lookup:hour %}
+                                {% if entry.input_type == v.input_type %}
+                                    <!-- If this is the right column, put the value in -->
+                                    <td>{{entry.quantity__sum}}</td>
+                                {% else %}
+                                    <!-- If it's not the right column, add a zero cell. -->
+                                    <td>0.00</td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <!-- if we have no data for the hour. just add a cell with zeroes -->
+                        <td>0.00</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>    
     <p>TestSum17: {{ testsum17 }}</p>
     <p>TestSum: {{ testsum }}</p>
+    <p> {{data}}</p>
     </div>
 {% endblock %}
